@@ -10,7 +10,7 @@
     .card{width:100%;max-width:420px;background:#fff;border:1px solid #ddd;border-radius:14px;padding:24px 20px 28px}
     h1{text-align:center;font-size:24px;margin-bottom:20px}
     .field{margin:12px 0}
-    input[type="text"],input[type="password"]{width:95%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;background:#f4f6f8}
+    input{width:95%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;background:#f4f6f8}
     .role{display:flex;gap:10px;margin:12px 0}
     .chip{flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:10px;background:#fff;cursor:pointer;font-size:14px;user-select:none}
     .chip.active{background:#0b69ff;color:#fff;border-color:#0b69ff}
@@ -22,10 +22,9 @@
 <body>
 
 <script>
-  const force = new URLSearchParams(location.search).get('force') === '1';
   const isLogged = localStorage.getItem('isLoggedIn') === 'true';
   const roleSaved = localStorage.getItem('role');
-  if (isLogged && !force) {
+  if (isLogged) {
     location.replace(roleSaved === 'admin' ? 'admin-dashboard.html' : 'userprofile.html');
   }
 </script>
@@ -60,18 +59,19 @@
 </header>
 
 <main>
-  <form class="card" id="loginForm" autocomplete="on">
+  <form class="card" id="loginForm">
     <h1>Log in</h1>
-    <div class="field"><input id="email" type="text" placeholder="Phone or Email" required autocomplete="username"></div>
-    <div class="field"><input id="pass" type="password" placeholder="Password" required autocomplete="current-password"></div>
+    <div class="field"><input id="email" type="text" placeholder="Phone or Email" required></div>
+    <div class="field"><input id="pass" type="password" placeholder="Password" required></div>
 
     <div class="role" id="roleGroup">
-      <div class="chip active" data-role="admin" tabindex="0">Admin</div>
-      <div class="chip" data-role="user" tabindex="0">User</div>
+      <div class="chip active" data-role="admin">Admin</div>
+      <div class="chip" data-role="user">User</div>
     </div>
 
     <button type="submit" class="submit">Log In</button>
     <p class="tiny">Don’t have an account? <a href="signup.html">Sign up</a></p>
+    <p class="tiny"><a href="#" id="signout">Not you? Sign out</a></p>
   </form>
 </main>
 
@@ -84,31 +84,22 @@
 
 <script>
   let role = 'admin';
-
-  const roleGroup = document.getElementById('roleGroup');
-  roleGroup.addEventListener('click', (e)=>{
-    const chip = e.target.closest('.chip');
-    if(!chip) return;
-    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    role = chip.getAttribute('data-role');
-  });
-  roleGroup.addEventListener('keydown', (e)=>{
-    if(e.key === 'Enter' || e.key === ' ') {
-      const chip = e.target.closest('.chip');
-      if(!chip) return;
-      e.preventDefault();
-      chip.click();
-    }
+  document.querySelectorAll('.chip').forEach(chip=>{
+    chip.addEventListener('click', ()=>{
+      document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      role = chip.dataset.role;
+    });
   });
 
-  document.getElementById('forceLink').addEventListener('click', (e)=>{
+  document.getElementById('signout').addEventListener('click', (e)=>{
     e.preventDefault();
     localStorage.clear();
-    location.href='login.html?force=1';
+    alert("Signed out!");
+    location.reload();
   });
 
-  document.getElementById('loginForm').addEventListener('submit', (e) => {
+  document.getElementById('loginForm').addEventListener('submit', (e)=>{
     e.preventDefault();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('pass').value.trim();
@@ -117,34 +108,29 @@
     const USER_EMAIL  = 'user@123.com';
     const COMMON_PASS = '123456';
 
-    const setSession = (who, mail) => {
+    if(role==='admin' && email===ADMIN_EMAIL && password===COMMON_PASS){
       localStorage.setItem('isLoggedIn','true');
-      localStorage.setItem('role',who);
-      localStorage.setItem('email',mail);
-      localStorage.setItem('login_time',String(Date.now()));
-      localStorage.setItem('bc_isLoggedIn','true');
-      localStorage.setItem('bc_role',who);
-      localStorage.setItem('bc_email',mail);
-      localStorage.setItem('bc_login_time',String(Date.now()));
-    };
-
-    if (role === 'admin') {
-      if (email === ADMIN_EMAIL && password === COMMON_PASS) {
-        setSession('admin', email);
-        location.href = 'admin-dashboard.html';
-      } else {
-        alert('Invalid Admin credentials!\nEmail: admin@bloodconnect.com\nPass: 123456');
-      }
+      localStorage.setItem('role','admin');
+      localStorage.setItem('email',email);
+      location.href='admin-dashboard.html';
+    } else if(role==='user' && email===USER_EMAIL && password===COMMON_PASS){
+      localStorage.setItem('isLoggedIn','true');
+      localStorage.setItem('role','user');
+      localStorage.setItem('email',email);
+      location.href='userprofile.html';
     } else {
-      if (email === USER_EMAIL && password === COMMON_PASS) {
-        setSession('user', email);
-        location.href = 'userprofile.html';
-      } else {
-        alert('Invalid User credentials!\nEmail: user@123.com\nPass: 123456');
-      }
+      alert('Invalid credentials');
     }
   });
 </script>
+<script>
+  const isLogged = localStorage.getItem('isLoggedIn') === 'true';
+  const role = localStorage.getItem('role');
+  if (!isLogged || role !== 'user') {
+    window.location.href = "login.html";
+  }
+</script>
+
 
 </body>
 </html>
