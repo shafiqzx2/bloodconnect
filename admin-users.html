@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BloodConnect — Admin · Users</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#111}
+    main{max-width:1100px;margin:24px auto;padding:0 16px}
+    h2{margin:0 0 16px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .search{display:flex;align-items:center;background:#fff;border:1px solid #eee;border-radius:10px;padding:8px 10px;gap:8px}
+    .search input{border:none;outline:none;width:260px}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #eee;border-radius:10px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+    th{background:#f5f5f5}
+
+    header{background:#fff;border-bottom:1px solid #eee}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{display:flex;align-items:center;font-weight:bold}
+    header .logo span{color:#e63946;margin-right:6px}
+    header nav{display:flex;gap:16px}
+    header nav a{text-decoration:none;color:#111;font-size:14px}
+    header nav a:hover, header nav a.active{color:#e63946;font-weight:bold}
+
+    .profile{position:relative;cursor:pointer}
+    .profile img{width:34px;height:34px;border-radius:50%}
+    .dropdown{position:absolute;right:0;top:45px;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);display:none;min-width:120px}
+    .dropdown a{display:block;padding:8px 12px;color:#111;text-decoration:none;font-size:14px}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+</head>
+<body>
+  <script>
+    const isLoggedIn = localStorage.getItem('isLoggedIn')==='true';
+    const role = localStorage.getItem('role');
+    if(!isLoggedIn || role!=='admin'){ location.href='login.html'; }
+  </script>
+
+  <header>
+    <div class="wrap">
+      <div class="logo"><span>🩸</span> BloodConnect <b>Admin</b></div>
+      <nav>
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-users.html" class="active">Users</a>
+        <a href="admin-donors.html">Donors</a>
+        <a href="admin-requests.html">Requests</a>
+        <a href="admin-reports.html">Reports</a>
+        <a href="admin-notifications.html">Notifications</a>
+        <a href="admin-fraud.html">Fraud</a>
+      </nav>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="profile.jpg" alt="Profile">
+        <div class="dropdown" id="dropdown"><a href="#" onclick="logout()">Sign Out</a></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="topbar">
+      <h2>All Users</h2>
+      <label class="search">
+        🔍 <input id="q" type="text" placeholder="Search users" />
+      </label>
+    </div>
+
+    <table id="tbl">
+      <thead>
+        <tr><th>User</th><th>Email</th><th>Phone</th><th>Role</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Ethan Walker</td><td>ethan.walker@example.com</td><td>+1-555-123-4567</td><td>Admin</td><td>Active</td></tr>
+        <tr><td>Chloe Turner</td><td>chloe.turner@example.com</td><td>+1-555-987-6543</td><td>Donor</td><td>Inactive</td></tr>
+        <tr><td>Caleb Reed</td><td>caleb.reed@example.com</td><td>+1-555-111-2222</td><td>Requester</td><td>Active</td></tr>
+        <tr><td>Ava Carter</td><td>ava.carter@example.com</td><td>+1-555-777-8888</td><td>Admin</td><td>Active</td></tr>
+        <tr><td>Lucas Turner</td><td>lucas.turner@example.com</td><td>+1-555-123-4567</td><td>Donor</td><td>Active</td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer style="background:#fff;border-top:1px solid #eee;text-align:center;padding:14px;color:#666;font-size:14px">
+    © 2025 BloodConnect. All rights reserved.
+  </footer>
+
+  <script>
+    function toggleDropdown(){ const d=document.getElementById('dropdown'); d.style.display=d.style.display==='block'?'none':'block'; }
+    function logout(){ localStorage.clear(); location.href='login.html'; }
+    document.addEventListener('click', e=>{ if(!e.target.closest('.profile')) document.getElementById('dropdown').style.display='none'; });
+
+    // search
+    const q=document.getElementById('q'), rows=[...document.querySelectorAll('#tbl tbody tr')];
+    q.addEventListener('input', ()=> {
+      const v=q.value.toLowerCase();
+      rows.forEach(r=> r.style.display = r.innerText.toLowerCase().includes(v)?'':'none');
+    });
+  </script>
+</body>
+</html>

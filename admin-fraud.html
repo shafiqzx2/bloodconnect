@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BloodConnect — Admin · Fraud Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#111}
+    main{max-width:1100px;margin:24px auto;padding:0 16px}
+    h2{margin:0 0 8px}
+    p.muted{color:#666;margin:0 0 16px}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #eee;border-radius:10px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid #eee;text-align:left;vertical-align:top}
+    th{background:#f5f5f5}
+    a.action{font-weight:bold}
+    /* header/profile */
+    header{background:#fff;border-bottom:1px solid #eee}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{display:flex;align-items:center;font-weight:bold}
+    header .logo span{color:#e63946;margin-right:6px}
+    header nav{display:flex;gap:16px}
+    header nav a{text-decoration:none;color:#111;font-size:14px}
+    header nav a:hover, header nav a.active{color:#e63946;font-weight:bold}
+    .profile{position:relative;cursor:pointer}
+    .profile img{width:34px;height:34px;border-radius:50%}
+    .dropdown{position:absolute;right:0;top:45px;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);display:none;min-width:120px}
+    .dropdown a{display:block;padding:8px 12px;color:#111;text-decoration:none;font-size:14px}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('isLoggedIn')!=='true'||localStorage.getItem('role')!=='admin')location.href='login.html';</script>
+
+  <header>
+    <div class="wrap">
+      <div class="logo"><span>🩸</span> BloodConnect <b>Admin</b></div>
+      <nav>
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-users.html">Users</a>
+        <a href="admin-donors.html">Donors</a>
+        <a href="admin-requests.html">Requests</a>
+        <a href="admin-reports.html">Reports</a>
+        <a href="admin-notifications.html">Notifications</a>
+        <a href="admin-fraud.html" class="active">Fraud</a>
+      </nav>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="profile.jpg" alt="Profile">
+        <div class="dropdown" id="dropdown"><a href="#" onclick="logout()">Sign Out</a></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h2>Fraud Detection</h2>
+    <p class="muted">Review and manage potentially fraudulent accounts or activities.</p>
+
+    <table>
+      <thead>
+        <tr><th>User</th><th>Issue</th><th>Details</th><th>Actions</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Ethan Carter</td>
+          <td>Suspicious Activity</td>
+          <td>Multiple requests from different locations within a short timeframe.</td>
+          <td><a href="#" class="action">Investigate</a></td>
+        </tr>
+        <tr>
+          <td>Olivia Bennett</td>
+          <td>Account Takeover</td>
+          <td>Login attempts from unknown devices and locations.</td>
+          <td><a href="#" class="action">Block Account</a></td>
+        </tr>
+        <tr>
+          <td>Noah Thompson</td>
+          <td>False Information</td>
+          <td>Inconsistent donor information and history.</td>
+          <td><a href="#" class="action">Review Details</a></td>
+        </tr>
+        <tr>
+          <td>Ava Harper</td>
+          <td>Request Abuse</td>
+          <td>Excessive blood requests without valid medical documentation.</td>
+          <td><a href="#" class="action">Contact User</a></td>
+        </tr>
+        <tr>
+          <td>Liam Foster</td>
+          <td>Identity Theft</td>
+          <td>Multiple accounts with similar personal information.</td>
+          <td><a href="#" class="action">Block Account</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer style="background:#fff;border-top:1px solid #eee;text-align:center;padding:14px;color:#666;font-size:14px">© 2025 BloodConnect. All rights reserved.</footer>
+
+  <script>
+    function toggleDropdown(){const d=document.getElementById('dropdown'); d.style.display=d.style.display==='block'?'none':'block';}
+    function logout(){localStorage.clear();location.href='login.html';}
+    document.addEventListener('click',e=>{if(!e.target.closest('.profile'))document.getElementById('dropdown').style.display='none';});
+  </script>
+</body>
+</html>

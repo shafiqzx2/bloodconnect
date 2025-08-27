@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BloodConnect — Admin · Notifications</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#111}
+    main{max-width:900px;margin:24px auto;padding:0 16px}
+    h2{margin:0 0 8px}
+    .tabs{display:flex;gap:16px;border-bottom:2px solid #eee;margin-bottom:10px}
+    .tab{padding:8px 2px;cursor:pointer}
+    .tab.active{border-bottom:2px solid #111;font-weight:bold}
+    textarea,select,input{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;background:#fff}
+    .group{margin:18px 0}
+    .btn{padding:10px 14px;border:none;border-radius:10px;background:#0b69ff;color:#fff;font-weight:700;cursor:pointer}
+    /* header/profile */
+    header{background:#fff;border-bottom:1px solid #eee}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{display:flex;align-items:center;font-weight:bold}
+    header .logo span{color:#e63946;margin-right:6px}
+    header nav{display:flex;gap:16px}
+    header nav a{text-decoration:none;color:#111;font-size:14px}
+    header nav a:hover, header nav a.active{color:#e63946;font-weight:bold}
+    .profile{position:relative;cursor:pointer}
+    .profile img{width:34px;height:34px;border-radius:50%}
+    .dropdown{position:absolute;right:0;top:45px;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);display:none;min-width:120px}
+    .dropdown a{display:block;padding:8px 12px;color:#111;text-decoration:none;font-size:14px}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('isLoggedIn')!=='true'||localStorage.getItem('role')!=='admin')location.href='login.html';</script>
+
+  <header>
+    <div class="wrap">
+      <div class="logo"><span>🩸</span> BloodConnect <b>Admin</b></div>
+      <nav>
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-users.html">Users</a>
+        <a href="admin-donors.html">Donors</a>
+        <a href="admin-requests.html">Requests</a>
+        <a href="admin-reports.html">Reports</a>
+        <a href="admin-notifications.html" class="active">Notifications</a>
+        <a href="admin-fraud.html">Fraud</a>
+      </nav>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="profile.jpg" alt="Profile">
+        <div class="dropdown" id="dropdown"><a href="#" onclick="logout()">Sign Out</a></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h2>Notification Controls</h2>
+    <p style="color:#666;margin-top:-6px">Manage system-wide notifications and alerts.</p>
+
+    <div class="group">
+      <b>Message Templates</b>
+      <div class="tabs">
+        <div class="tab active" data-id="sms">SMS</div>
+        <div class="tab" data-id="email">Email</div>
+        <div class="tab" data-id="inapp">In-App</div>
+      </div>
+
+      <div id="pane-sms"><label>SMS Template</label><textarea rows="6">Your donation request has been approved.</textarea></div>
+      <div id="pane-email" hidden><label>Email Template</label><textarea rows="8">Hello {{name}}, your request status is {{status}}.</textarea></div>
+      <div id="pane-inapp" hidden><label>In-App Template</label><textarea rows="6">New request near your location.</textarea></div>
+    </div>
+
+    <div class="group">
+      <b>Alert Timing and Triggers</b>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px">
+        <select><option>Request Created</option><option>Request Fulfilled</option><option>Donation Due</option></select>
+        <input type="text" placeholder="Timing (e.g., Immediately / 15 min / 24h)">
+      </div>
+    </div>
+
+    <button class="btn" onclick="alert('Saved! (demo)')">Save Settings</button>
+  </main>
+
+  <footer style="background:#fff;border-top:1px solid #eee;text-align:center;padding:14px;color:#666;font-size:14px">© 2025 BloodConnect. All rights reserved.</footer>
+
+  <script>
+    function toggleDropdown(){const d=document.getElementById('dropdown'); d.style.display=d.style.display==='block'?'none':'block';}
+    function logout(){localStorage.clear();location.href='login.html';}
+    document.addEventListener('click',e=>{if(!e.target.closest('.profile'))document.getElementById('dropdown').style.display='none';});
+
+    // tabs
+    const tabs=document.querySelectorAll('.tab');
+    tabs.forEach(t=>t.addEventListener('click', ()=>{
+      tabs.forEach(x=>x.classList.remove('active'));
+      t.classList.add('active');
+      ['sms','email','inapp'].forEach(id=>document.getElementById('pane-'+id).hidden = (id!==t.dataset.id));
+    }));
+  </script>
+</body>
+</html>

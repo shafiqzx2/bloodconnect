@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BloodConnect — Create Request</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { margin:0; font-family:Arial, sans-serif; background:#fafafa; color:#111; }
+    main { min-height:calc(100vh - 120px); display:flex; align-items:center; justify-content:center; padding:40px 16px; }
+
+    .card { width:100%; max-width:600px; background:#fff; border:1px solid #eee; border-radius:14px; padding:30px 25px; box-shadow:0 4px 12px rgba(0,0,0,0.05); }
+    h1 { text-align:center; color:#e63946; margin-bottom:25px; }
+
+    .field { margin:15px 0; }
+    label { display:block; font-weight:bold; margin-bottom:6px; }
+    input, select {
+      width:100%; padding:12px 14px; border:1px solid #ddd; border-radius:10px; background:#fdfdfd;
+    }
+
+    .submit {
+      display:block; width:100%; padding:14px; margin-top:18px;
+      border:none; border-radius:999px;
+      background:#e63946; color:#fff; font-weight:bold; font-size:16px;
+      cursor:pointer; transition:0.3s;
+    }
+    .submit:hover { background:#c82333; }
+  </style>
+</head>
+<body>
+
+
+<header>
+  <style>
+    header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:50}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{font-weight:bold;display:flex;align-items:center;gap:6px;font-size:18px}
+    header .logo span{color:#e63946}
+    header nav{display:flex;gap:20px}
+    header nav a{font-size:14px;color:#333;padding:6px 8px;border-radius:6px;text-decoration:none}
+    header nav a:hover, header nav a.active{background:#f3f4f6;color:#e63946}
+    header .actions{display:flex;align-items:center;gap:12px;position:relative}
+    header .icon-btn{width:34px;height:34px;border:none;border-radius:50%;background:#f3f4f6;cursor:pointer;font-size:16px}
+    header .avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;cursor:pointer}
+    .dropdown{position:absolute;top:46px;right:0;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.08);display:none;min-width:120px}
+    .dropdown a{display:block;padding:10px 12px;color:#333;font-size:14px;text-decoration:none}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+
+  <div class="wrap">
+    <div class="logo"><span>🩸</span>BloodConnect</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="search.html">Search</a>
+      <a href="requests.html">Requests</a>
+      <a href="donations.html">Donations</a>
+    </nav>
+    <div class="actions">
+      <button class="icon-btn">🔔</button>
+      <img src="https://via.placeholder.com/34" alt="Profile" class="avatar" id="profileBtn">
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#" id="signOut">Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const profileBtn = document.getElementById("profileBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+
+    profileBtn.addEventListener("click", () => {
+      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+
+    document.getElementById("signOut").addEventListener("click", function(e){
+      e.preventDefault();
+      localStorage.removeItem("isLoggedIn");
+      window.location.href = "login.html";
+    });
+  </script>
+</header>
+
+
+  <main>
+    <form class="card" id="requestForm">
+      <h1>Create Blood Request</h1>
+
+      <div class="field">
+        <label>Blood Group</label>
+        <select required>
+          <option value="">Select Blood Group</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>O+</option><option>O-</option>
+          <option>AB+</option><option>AB-</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Location</label>
+        <input type="text" placeholder="Enter Location" required>
+      </div>
+
+      <div class="field">
+        <label>Hospital Name</label>
+        <input type="text" placeholder="Enter Hospital Name" required>
+      </div>
+
+      <div class="field">
+        <label>Patient Name</label>
+        <input type="text" placeholder="Enter Patient Name" required>
+      </div>
+
+      <div class="field">
+        <label>Urgency</label>
+        <select required>
+          <option value="">Select Urgency</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+      </div>
+
+      <button type="submit" class="submit">Submit Request</button>
+    </form>
+  </main>
+
+
+  <footer>
+    <style>
+      footer { background:#fff; border-top:1px solid #eee; text-align:center; padding:16px; font-size:14px; color:#666; }
+    </style>
+    © 2025 BloodConnect. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById("requestForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      alert("Request submitted successfully!");
+      window.location.href = "requests.html"; 
+    });
+  </script>
+
+</body>
+</html>

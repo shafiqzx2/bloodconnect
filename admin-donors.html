@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BloodConnect — Admin · Donors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#111}
+    main{max-width:1100px;margin:24px auto;padding:0 16px}
+    h2{margin:0 0 16px}
+    .row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .btn{padding:8px 12px;border:none;border-radius:999px;background:#0b69ff;color:#fff;font-weight:700;cursor:pointer}
+    .search{display:flex;align-items:center;background:#fff;border:1px solid #eee;border-radius:10px;padding:8px 10px;gap:8px}
+    .search input{border:none;outline:none;width:260px}
+    table{width:100%;border-collapse:collapse;background:#fff;border:1px solid #eee;border-radius:10px;overflow:hidden}
+    th,td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+    th{background:#f5f5f5}
+
+    header{background:#fff;border-bottom:1px solid #eee}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{display:flex;align-items:center;font-weight:bold}
+    header .logo span{color:#e63946;margin-right:6px}
+    header nav{display:flex;gap:16px}
+    header nav a{text-decoration:none;color:#111;font-size:14px}
+    header nav a:hover, header nav a.active{color:#e63946;font-weight:bold}
+    .profile{position:relative;cursor:pointer}
+    .profile img{width:34px;height:34px;border-radius:50%}
+    .dropdown{position:absolute;right:0;top:45px;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);display:none;min-width:120px}
+    .dropdown a{display:block;padding:8px 12px;color:#111;text-decoration:none;font-size:14px}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('isLoggedIn')!=='true'||localStorage.getItem('role')!=='admin')location.href='login.html';</script>
+
+  <header>
+    <div class="wrap">
+      <div class="logo"><span>🩸</span> BloodConnect <b>Admin</b></div>
+      <nav>
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-users.html">Users</a>
+        <a href="admin-donors.html" class="active">Donors</a>
+        <a href="admin-requests.html">Requests</a>
+        <a href="admin-reports.html">Reports</a>
+        <a href="admin-notifications.html">Notifications</a>
+        <a href="admin-fraud.html">Fraud</a>
+      </nav>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="profile.jpg" alt="Profile">
+        <div class="dropdown" id="dropdown"><a href="#" onclick="logout()">Sign Out</a></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="row">
+      <h2>Donors</h2>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <label class="search">🔍 <input id="q" type="text" placeholder="Search donors"></label>
+        <button class="btn">Add Donor</button>
+      </div>
+    </div>
+
+    <table id="tbl">
+      <thead><tr><th>Name</th><th>Phone Number</th><th>Blood Group</th><th>Last Donation Date</th><th>Actions</th></tr></thead>
+      <tbody>
+        <tr><td>Ethan Harper</td><td>555-123-4567</td><td>A+</td><td>2023-11-15</td><td><a href="#">View Details</a></td></tr>
+        <tr><td>Olivia Bennett</td><td>555-987-6543</td><td>B-</td><td>2023-10-20</td><td><a href="#">View Details</a></td></tr>
+        <tr><td>Noah Carter</td><td>555-246-8013</td><td>O+</td><td>2023-09-25</td><td><a href="#">View Details</a></td></tr>
+        <tr><td>Ava Morgan</td><td>555-369-1470</td><td>AB+</td><td>2023-08-30</td><td><a href="#">View Details</a></td></tr>
+        <tr><td>Liam Foster</td><td>555-789-0123</td><td>A-</td><td>2023-07-05</td><td><a href="#">View Details</a></td></tr>
+      </tbody>
+    </table>
+  </main>
+
+  <footer style="background:#fff;border-top:1px solid #eee;text-align:center;padding:14px;color:#666;font-size:14px">© 2025 BloodConnect. All rights reserved.</footer>
+
+  <script>
+    const q=document.getElementById('q'), rows=[...document.querySelectorAll('#tbl tbody tr')];
+    q.addEventListener('input', ()=>{const v=q.value.toLowerCase(); rows.forEach(r=>r.style.display=r.innerText.toLowerCase().includes(v)?'':'none');});
+    function toggleDropdown(){const d=document.getElementById('dropdown'); d.style.display=d.style.display==='block'?'none':'block';}
+    function logout(){localStorage.clear();location.href='login.html';}
+    document.addEventListener('click',e=>{if(!e.target.closest('.profile'))document.getElementById('dropdown').style.display='none';});
+  </script>
+</body>
+</html>

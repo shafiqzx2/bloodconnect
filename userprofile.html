@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BloodConnect — Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { margin:0; font-family:Arial, sans-serif; background:#f9fafb; color:#111; }
+    main { max-width:800px; margin:30px auto; padding:0 20px; }
+    h2 { margin-top:30px; }
+    .card { background:#fff; border:1px solid #eee; border-radius:12px; padding:20px; margin-top:20px; }
+
+    .profile-header { display:flex; gap:20px; align-items:center; margin-bottom:20px; }
+    .profile-header img { width:100px; height:100px; border-radius:50%; object-fit:cover; }
+    .profile-info h3 { margin:0; }
+    .profile-info p { margin:4px 0; color:#555; }
+
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    table th, table td { border:1px solid #eee; padding:10px; text-align:left; }
+    table th { background:#f5f5f5; }
+  </style>
+</head>
+<body>
+
+
+<header>
+  <style>
+    header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:50}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{font-weight:bold;display:flex;align-items:center;gap:6px;font-size:18px}
+    header .logo span{color:#e63946}
+    header nav{display:flex;gap:20px}
+    header nav a{font-size:14px;color:#333;padding:6px 8px;border-radius:6px;text-decoration:none}
+    header nav a:hover, header nav a.active{background:#f3f4f6;color:#e63946}
+    header .actions{display:flex;align-items:center;gap:12px;position:relative}
+    header .icon-btn{width:34px;height:34px;border:none;border-radius:50%;background:#f3f4f6;cursor:pointer;font-size:16px}
+    header .avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;cursor:pointer}
+    .dropdown{position:absolute;top:46px;right:0;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.08);display:none;min-width:120px}
+    .dropdown a{display:block;padding:10px 12px;color:#333;font-size:14px;text-decoration:none}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+
+  <div class="wrap">
+    <div class="logo"><span>🩸</span>BloodConnect</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="search.html">Search</a>
+      <a href="requests.html">Requests</a>
+      <a href="donations.html">Donations</a>
+    </nav>
+    <div class="actions">
+      <button class="icon-btn">🔔</button>
+      <img src="https://via.placeholder.com/34" alt="Profile" class="avatar" id="profileBtn">
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#" id="signOut">Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const profileBtn = document.getElementById("profileBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+
+    profileBtn.addEventListener("click", () => {
+      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+    document.getElementById("signOut").addEventListener("click", function(e){
+      e.preventDefault();
+      localStorage.removeItem("isLoggedIn");
+      window.location.href = "login.html";
+    });
+  </script>
+</header>
+
+
+
+  <main>
+    <div class="profile-header">
+      <img src="sophia.jpg" alt="Sophia Clark">
+      <div class="profile-info">
+        <h3>Sophia Clark</h3>
+        <p><b>Blood Type:</b> O+</p>
+        <p><b>Location:</b> San Francisco, CA</p>
+        <button onclick="window.location.href='updateprofile.html'" 
+        style="padding:6px 12px; 
+               border:1px solid #007bff; 
+               border-radius:6px; 
+               cursor:pointer; 
+               background-color:#007bff; 
+               color:#fff;">
+  Edit Profile
+</button>
+
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Health Information</h2>
+      <p><b>Last Donation Date:</b> June 15, 2023</p>
+      <p><b>Weight:</b> 135 lbs</p>
+      <p><b>Hemoglobin:</b> 13.5 g/dL</p>
+    </div>
+
+    <div class="card">
+      <h2>Contact Information</h2>
+      <p><b>Phone:</b> (555) 123-4567</p>
+      <p><b>Email:</b> sophia.clark@email.com</p>
+    </div>
+
+    <div class="card">
+      <h2>Availability</h2>
+      <p>Available to Donate ✅</p>
+    </div>
+
+    <div class="card">
+      <h2>Donation History</h2>
+      <table>
+        <tr><th>Date</th><th>Location</th><th>Type</th></tr>
+        <tr><td>July 20, 2022</td><td>City Hospital</td><td>Whole Blood</td></tr>
+        <tr><td>Jan 10, 2023</td><td>Community Center</td><td>Platelets</td></tr>
+        <tr><td>June 15, 2023</td><td>City Hospital</td><td>Whole Blood</td></tr>
+      </table>
+    </div>
+  </main>
+
+
+  <footer>
+    <style>
+      footer { background:#fff; border-top:1px solid #eee; text-align:center; padding:16px; font-size:14px; color:#666; }
+    </style>
+    © 2025 BloodConnect. All rights reserved.
+  </footer>
+
+</body>
+</html>

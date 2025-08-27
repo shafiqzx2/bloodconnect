@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BloodConnect — Log In</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#111}
+    main{min-height:calc(100vh - 120px);display:flex;align-items:flex-start;justify-content:center;padding:40px 16px}
+    .card{width:100%;max-width:420px;background:#fff;border:1px solid #ddd;border-radius:14px;padding:24px 20px 28px}
+    h1{text-align:center;font-size:24px;margin-bottom:20px}
+    .field{margin:12px 0}
+    input{width:95%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;background:#f4f6f8}
+    .role{display:flex;gap:10px;margin:12px 0}
+    .chip{flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:10px;background:#fff;cursor:pointer;font-size:14px}
+    .chip.active{background:#0b69ff;color:#fff;border-color:#0b69ff}
+    .submit{display:block;width:100%;padding:12px 16px;margin-top:12px;border:none;border-radius:999px;background:#0b69ff;color:#fff;font-weight:700;cursor:pointer}
+    .tiny{text-align:center;margin-top:14px;font-size:13px;color:#666}
+    .tiny a{color:#0b69ff;text-decoration:none}
+  </style>
+</head>
+<body>
+
+<script>
+  const force = new URLSearchParams(location.search).get('force') === '1';
+  const isLogged = localStorage.getItem('isLoggedIn') === 'true';
+  const role = localStorage.getItem('role');
+  if (isLogged && !force) {
+    location.replace(role === 'admin' ? 'admin-dashboard.html' : 'userprofile.html');
+  }
+</script>
+
+<header>
+  <style>
+    header{background:#fff;border-bottom:1px solid #ddd}
+    header .container{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+    header .logo{display:flex;align-items:center;font-weight:bold;font-size:18px}
+    header .logo span{color:#e63946;margin-right:6px;font-size:20px}
+    header nav{display:flex;gap:20px}
+    header nav a{color:#111;font-size:14px;text-decoration:none}
+    header nav a:hover{color:#e63946}
+    header .actions{display:flex;gap:10px}
+    header .btn{padding:6px 16px;border-radius:999px;border:none;cursor:pointer;font-size:14px;font-weight:bold;text-decoration:none;display:inline-block}
+    header .btn-sign{background:#fddede;color:#111}
+    header .btn-login{background:#f2f2f2;color:#111}
+  </style>
+  <div class="container">
+    <div class="logo"><span>🩸</span> BloodConnect</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="working.html">How It Works</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+    </nav>
+    <div class="actions">
+      <a href="signup.html" class="btn btn-sign">Sign Up</a>
+      <a href="login.html" class="btn btn-login">Log in</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <form class="card" id="loginForm">
+    <h1>Log in</h1>
+    <div class="field"><input type="text" placeholder="Phone or Email" required></div>
+    <div class="field"><input type="password" placeholder="Password" required></div>
+    <div class="role">
+      <div class="chip active" id="adminOpt">Admin</div>
+      <div class="chip" id="userOpt">User</div>
+    </div>
+    <button type="submit" class="submit">Log In</button>
+    <p class="tiny">Don’t have an account? <a href="signup.html">Sign up</a></p>
+    <p class="tiny"><a href="#" onclick="localStorage.clear();location.href='login.html?force=1';return false;">Not you? Sign out</a></p>
+  </form>
+</main>
+
+<footer>
+  <style>
+    footer{background:#fff;border-top:1px solid #ddd;text-align:center;padding:16px;font-size:14px;color:#666}
+  </style>
+  © 2025 BloodConnect. All rights reserved.
+</footer>
+
+<script>
+  let role = "admin";
+  const adminOpt = document.getElementById("adminOpt");
+  const userOpt = document.getElementById("userOpt");
+  adminOpt.addEventListener("click", () => {
+    role = "admin";
+    adminOpt.classList.add("active");
+    userOpt.classList.remove("active");
+  });
+  userOpt.addEventListener("click", () => {
+    role = "user";
+    userOpt.classList.add("active");
+    adminOpt.classList.remove("active");
+  });
+  document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.querySelectorAll("input")[0].value.trim();
+    const password = document.querySelectorAll("input")[1].value.trim();
+    const ADMIN_EMAIL = "admin@bloodconnect.com";
+    const USER_EMAIL = "user@123.com";
+    const COMMON_PASS = "123456";
+    const setSession = (who, mail) => {
+      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("role", who);
+      localStorage.setItem("email", mail);
+      localStorage.setItem("login_time", String(Date.now()));
+    };
+    if (role === "admin") {
+      if (email === ADMIN_EMAIL && password === COMMON_PASS) {
+        setSession("admin", email);
+        location.href = "admin-dashboard.html";
+      } else {
+        alert("Invalid Admin credentials!");
+      }
+    } else {
+      if (email === USER_EMAIL && password === COMMON_PASS) {
+        setSession("user", email);
+        location.href = "userprofile.html";
+      } else {
+        alert("Invalid User credentials!");
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

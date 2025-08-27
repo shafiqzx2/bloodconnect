@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BloodConnect — Admin · Reports</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#111}
+    main{max-width:900px;margin:24px auto;padding:0 16px}
+    h2{margin:0 0 8px}
+    p.muted{color:#666;margin:0 0 18px}
+    .group{margin:18px 0}
+    .opt{background:#fff;border:1px solid #f1dada;border-radius:10px;padding:12px}
+    .opt+.opt{margin-top:10px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    select,.btn{padding:10px;border:1px solid #ddd;border-radius:10px;background:#fff}
+    .btn.primary{background:#e11d48;color:#fff;border-color:#e11d48;border-radius:12px}
+    /* header/profile */
+    header{background:#fff;border-bottom:1px solid #eee}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{display:flex;align-items:center;font-weight:bold}
+    header .logo span{color:#e63946;margin-right:6px}
+    header nav{display:flex;gap:16px}
+    header nav a{text-decoration:none;color:#111;font-size:14px}
+    header nav a:hover, header nav a.active{color:#e63946;font-weight:bold}
+    .profile{position:relative;cursor:pointer}
+    .profile img{width:34px;height:34px;border-radius:50%}
+    .dropdown{position:absolute;right:0;top:45px;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.1);display:none;min-width:120px}
+    .dropdown a{display:block;padding:8px 12px;color:#111;text-decoration:none;font-size:14px}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+</head>
+<body>
+  <script>if(localStorage.getItem('isLoggedIn')!=='true'||localStorage.getItem('role')!=='admin')location.href='login.html';</script>
+
+  <header>
+    <div class="wrap">
+      <div class="logo"><span>🩸</span> BloodConnect <b>Admin</b></div>
+      <nav>
+        <a href="admin-dashboard.html">Dashboard</a>
+        <a href="admin-users.html">Users</a>
+        <a href="admin-donors.html">Donors</a>
+        <a href="admin-requests.html">Requests</a>
+        <a href="admin-reports.html" class="active">Reports</a>
+        <a href="admin-notifications.html">Notifications</a>
+        <a href="admin-fraud.html">Fraud</a>
+      </nav>
+      <div class="profile" onclick="toggleDropdown()">
+        <img src="profile.jpg" alt="Profile">
+        <div class="dropdown" id="dropdown"><a href="#" onclick="logout()">Sign Out</a></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h2>Report Generation</h2>
+    <p class="muted">Generate and download reports on various aspects of the system.</p>
+
+    <div class="group">
+      <b>Report Type</b>
+      <div class="opt"><label><input type="radio" name="rtype" value="donation" checked> Donation History</label></div>
+      <div class="opt"><label><input type="radio" name="rtype" value="activity"> User Activity</label></div>
+      <div class="opt"><label><input type="radio" name="rtype" value="fulfill"> Request Fulfillment Rates</label></div>
+      <div class="opt"><label><input type="radio" name="rtype" value="stats"> System Statistics</label></div>
+    </div>
+
+    <div class="group">
+      <b>Report Parameters</b>
+      <div class="row" style="margin-top:8px">
+        <select id="range">
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+          <option value="365">Last 12 months</option>
+        </select>
+        <select id="group">
+          <option value="all">All Users</option>
+          <option value="donors">Donors</option>
+          <option value="requesters">Requesters</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="group">
+      <b>Output Format</b>
+      <div class="opt"><label><input type="radio" name="fmt" value="csv" checked> CSV</label></div>
+      <div class="opt"><label><input type="radio" name="fmt" value="pdf"> PDF</label></div>
+    </div>
+
+    <button class="btn primary" onclick="generate()">Generate and Download Report</button>
+  </main>
+
+  <footer style="background:#fff;border-top:1px solid #eee;text-align:center;padding:14px;color:#666;font-size:14px">© 2025 BloodConnect. All rights reserved.</footer>
+
+  <script>
+    function toggleDropdown(){const d=document.getElementById('dropdown'); d.style.display=d.style.display==='block'?'none':'block';}
+    function logout(){localStorage.clear();location.href='login.html';}
+    document.addEventListener('click',e=>{if(!e.target.closest('.profile'))document.getElementById('dropdown').style.display='none';});
+
+    // ata csv file banabe
+    function generate(){
+      const type=document.querySelector('input[name="rtype"]:checked').value;
+      const range=document.getElementById('range').value;
+      const group=document.getElementById('group').value;
+      const fmt=document.querySelector('input[name="fmt"]:checked').value;
+
+      if(fmt==='csv'){
+        const rows=[
+          ['Report','Type',type],
+          ['Range','Days',range],
+          ['Group','Target',group],
+          [],
+          ['Date','User','Action'],
+          ['2024-07-20','Sophia','Donation'],
+          ['2024-07-19','Ethan','Request Created']
+        ];
+        const csv=rows.map(r=>r.join(',')).join('\n');
+        const blob=new Blob([csv],{type:'text/csv'});
+        const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='report.csv'; a.click();
+      }else{
+        alert('PDF export is mocked here. Use CSV for now.');
+      }
+    }
+  </script>
+</body>
+</html>

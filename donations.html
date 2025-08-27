@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>BloodConnect — Profile Update</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fafafa;color:#111}
+    main{max-width:800px;margin:24px auto;padding:0 16px}
+    .card{background:#fff;border:1px solid #e6e6e6;border-radius:12px;padding:18px}
+    h1{font-size:22px;margin:0 0 12px;color:#e63946}
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:720px){.grid{grid-template-columns:1fr 1fr}}
+    .field{display:flex;flex-direction:column;gap:6px}
+    .field.full{grid-column:1 / -1}
+    label{font-size:14px;font-weight:600}
+    input,select,textarea{
+      padding:10px 12px;border:1px solid #ddd;border-radius:8px;background:#fff
+    }
+    textarea{min-height:100px}
+    .row{display:flex;align-items:center;gap:8px}
+    .btn{padding:12px 16px;border:none;border-radius:999px;cursor:pointer;font-weight:700}
+    .btn-primary{background:#0b69ff;color:#fff}
+    .btn-primary:hover{background:#0956cc}
+    .right{display:flex;justify-content:flex-end;margin-top:12px}
+    small{color:#666}
+  </style>
+</head>
+<body>
+
+    <script>
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+      window.location.href = 'login.html';
+    }
+  </script>
+
+
+<header>
+  <style>
+    header{background:#fff;border-bottom:1px solid #eee;position:sticky;top:0;z-index:50}
+    header .wrap{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
+    header .logo{font-weight:bold;display:flex;align-items:center;gap:6px;font-size:18px}
+    header .logo span{color:#e63946}
+    header nav{display:flex;gap:20px}
+    header nav a{font-size:14px;color:#333;padding:6px 8px;border-radius:6px;text-decoration:none}
+    header nav a:hover, header nav a.active{background:#f3f4f6;color:#e63946}
+    header .actions{display:flex;align-items:center;gap:12px;position:relative}
+    header .icon-btn{width:34px;height:34px;border:none;border-radius:50%;background:#f3f4f6;cursor:pointer;font-size:16px}
+    header .avatar{width:34px;height:34px;border-radius:50%;object-fit:cover;cursor:pointer}
+    .dropdown{position:absolute;top:46px;right:0;background:#fff;border:1px solid #ddd;border-radius:6px;box-shadow:0 4px 10px rgba(0,0,0,.08);display:none;min-width:120px}
+    .dropdown a{display:block;padding:10px 12px;color:#333;font-size:14px;text-decoration:none}
+    .dropdown a:hover{background:#f5f5f5}
+  </style>
+
+  <div class="wrap">
+    <div class="logo"><span>🩸</span>BloodConnect</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="search.html">Search</a>
+      <a href="requests.html">Requests</a>
+      <a href="donations.html">Donations</a>
+    </nav>
+    <div class="actions">
+      <button class="icon-btn">🔔</button>
+      <img src="https://via.placeholder.com/34" alt="Profile" class="avatar" id="profileBtn">
+      <div class="dropdown" id="dropdownMenu">
+        <a href="#" id="signOut">Sign Out</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const profileBtn = document.getElementById("profileBtn");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+
+    profileBtn.addEventListener("click", () => {
+      dropdownMenu.style.display = dropdownMenu.style.display === "block" ? "none" : "block";
+    });
+
+
+    document.getElementById("signOut").addEventListener("click", function(e){
+      e.preventDefault();
+      localStorage.removeItem("isLoggedIn");
+      window.location.href = "login.html";
+    });
+  </script>
+</header>
+
+  <main>
+    <form class="card" id="updateForm">
+      <h1>Donar Information Update</h1>
+
+      <div class="grid">
+        <div class="field">
+          <label>Blood Group</label>
+          <select required>
+            <option value="">Select Blood Group</option>
+            <option>O+</option><option>O-</option>
+            <option>A+</option><option>A-</option>
+            <option>B+</option><option>B-</option>
+            <option>AB+</option><option>AB-</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Rh Factor</label>
+          <select required>
+            <option value="">Select Rh</option>
+            <option>Positive</option>
+            <option>Negative</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Country</label>
+          <input type="text" placeholder="Enter Country">
+        </div>
+
+        <div class="field">
+          <label>Division</label>
+          <input type="text" placeholder="Enter Division">
+        </div>
+
+        <div class="field">
+          <label>District</label>
+          <input type="text" placeholder="Enter District">
+        </div>
+
+        <div class="field">
+          <label>City</label>
+          <input type="text" placeholder="Enter City">
+        </div>
+
+        <div class="field">
+          <label>Area</label>
+          <input type="text" placeholder="Select/Enter Area">
+        </div>
+
+        <div class="field full">
+          <label>Full Address</label>
+          <input type="text" placeholder="Enter Full Address">
+        </div>
+
+        <div class="field">
+          <label>Last Donation Date</label>
+          <input type="date" placeholder="YYYY-MM-DD">
+        </div>
+
+        <div class="field">
+          <label>Weight (kg)</label>
+          <input type="number" placeholder="Enter Weight">
+        </div>
+
+        <div class="field">
+          <label>Hemoglobin (g/dL)</label>
+          <input type="text" placeholder="Enter Hemoglobin">
+        </div>
+
+        <div class="field full">
+          <label>Medical Conditions</label>
+          <textarea placeholder="List any medical conditions"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Emergency Name</label>
+          <input type="text" placeholder="Enter Name">
+        </div>
+
+        <div class="field">
+          <label>Emergency Number</label>
+          <input type="text" placeholder="Enter Number">
+        </div>
+
+        <div class="field full">
+          <label>Available for Donation</label>
+          <input type="hidden" name="available" value="no">
+          <div class="row">
+            <input type="checkbox" id="available" name="available" value="yes">
+            <label for="available" style="font-weight:normal">Yes, I am available</label>
+          </div>
+          <small>Turn on if you’re currently available to donate.</small>
+        </div>
+
+        <div class="field full">
+          <div class="row">
+            <input type="checkbox" id="consent" required>
+            <label for="consent" style="font-weight:normal">
+              I consent to use my data for blood donation purposes.
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <button class="btn btn-primary" type="submit">Update / Save</button>
+      </div>
+    </form>
+  </main>
+
+ 
+  <footer>
+    <style>
+      footer{background:#fff;border-top:1px solid #eee;text-align:center;padding:14px;color:#666;font-size:14px}
+    </style>
+    © 2025 BloodConnect. All rights reserved.
+  </footer>
+
+  <script>
+    document.getElementById('updateForm').addEventListener('submit', function(e){
+      e.preventDefault();
+      alert('Profile updated!');
+      window.location.href = 'profile.html';
+    });
+  </script>
+</body>
+</html>
