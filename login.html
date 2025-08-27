@@ -10,9 +10,9 @@
     .card{width:100%;max-width:420px;background:#fff;border:1px solid #ddd;border-radius:14px;padding:24px 20px 28px}
     h1{text-align:center;font-size:24px;margin-bottom:20px}
     .field{margin:12px 0}
-    input{width:95%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;background:#f4f6f8}
+    input[type="text"],input[type="password"]{width:95%;padding:12px 14px;border:1px solid #ddd;border-radius:10px;background:#f4f6f8}
     .role{display:flex;gap:10px;margin:12px 0}
-    .chip{flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:10px;background:#fff;cursor:pointer;font-size:14px}
+    .chip{flex:1;text-align:center;padding:10px;border:1px solid #ddd;border-radius:10px;background:#fff;cursor:pointer;font-size:14px;user-select:none}
     .chip.active{background:#0b69ff;color:#fff;border-color:#0b69ff}
     .submit{display:block;width:100%;padding:12px 16px;margin-top:12px;border:none;border-radius:999px;background:#0b69ff;color:#fff;font-weight:700;cursor:pointer}
     .tiny{text-align:center;margin-top:14px;font-size:13px;color:#666}
@@ -24,9 +24,9 @@
 <script>
   const force = new URLSearchParams(location.search).get('force') === '1';
   const isLogged = localStorage.getItem('isLoggedIn') === 'true';
-  const role = localStorage.getItem('role');
+  const roleSaved = localStorage.getItem('role');
   if (isLogged && !force) {
-    location.replace(role === 'admin' ? 'admin-dashboard.html' : 'userprofile.html');
+    location.replace(roleSaved === 'admin' ? 'admin-dashboard.html' : 'userprofile.html');
   }
 </script>
 
@@ -60,17 +60,19 @@
 </header>
 
 <main>
-  <form class="card" id="loginForm">
+  <form class="card" id="loginForm" autocomplete="on">
     <h1>Log in</h1>
-    <div class="field"><input type="text" placeholder="Phone or Email" required></div>
-    <div class="field"><input type="password" placeholder="Password" required></div>
-    <div class="role">
-      <div class="chip active" id="adminOpt">Admin</div>
-      <div class="chip" id="userOpt">User</div>
+    <div class="field"><input id="email" type="text" placeholder="Phone or Email" required autocomplete="username"></div>
+    <div class="field"><input id="pass" type="password" placeholder="Password" required autocomplete="current-password"></div>
+
+    <div class="role" id="roleGroup">
+      <div class="chip active" data-role="admin" tabindex="0">Admin</div>
+      <div class="chip" data-role="user" tabindex="0">User</div>
     </div>
+
     <button type="submit" class="submit">Log In</button>
     <p class="tiny">Don’t have an account? <a href="signup.html">Sign up</a></p>
-  
+  </form>
 </main>
 
 <footer>
@@ -81,45 +83,64 @@
 </footer>
 
 <script>
-  let role = "admin";
-  const adminOpt = document.getElementById("adminOpt");
-  const userOpt = document.getElementById("userOpt");
-  adminOpt.addEventListener("click", () => {
-    role = "admin";
-    adminOpt.classList.add("active");
-    userOpt.classList.remove("active");
+  let role = 'admin';
+
+  const roleGroup = document.getElementById('roleGroup');
+  roleGroup.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    role = chip.getAttribute('data-role');
   });
-  userOpt.addEventListener("click", () => {
-    role = "user";
-    userOpt.classList.add("active");
-    adminOpt.classList.remove("active");
+  roleGroup.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter' || e.key === ' ') {
+      const chip = e.target.closest('.chip');
+      if(!chip) return;
+      e.preventDefault();
+      chip.click();
+    }
   });
-  document.getElementById("loginForm").addEventListener("submit", (e) => {
+
+  document.getElementById('forceLink').addEventListener('click', (e)=>{
     e.preventDefault();
-    const email = document.querySelectorAll("input")[0].value.trim();
-    const password = document.querySelectorAll("input")[1].value.trim();
-    const ADMIN_EMAIL = "admin@bloodconnect.com";
-    const USER_EMAIL = "user@123.com";
-    const COMMON_PASS = "123456";
+    localStorage.clear();
+    location.href='login.html?force=1';
+  });
+
+  document.getElementById('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('pass').value.trim();
+
+    const ADMIN_EMAIL = 'admin@bloodconnect.com';
+    const USER_EMAIL  = 'user@123.com';
+    const COMMON_PASS = '123456';
+
     const setSession = (who, mail) => {
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("role", who);
-      localStorage.setItem("email", mail);
-      localStorage.setItem("login_time", String(Date.now()));
+      localStorage.setItem('isLoggedIn','true');
+      localStorage.setItem('role',who);
+      localStorage.setItem('email',mail);
+      localStorage.setItem('login_time',String(Date.now()));
+      localStorage.setItem('bc_isLoggedIn','true');
+      localStorage.setItem('bc_role',who);
+      localStorage.setItem('bc_email',mail);
+      localStorage.setItem('bc_login_time',String(Date.now()));
     };
-    if (role === "admin") {
+
+    if (role === 'admin') {
       if (email === ADMIN_EMAIL && password === COMMON_PASS) {
-        setSession("admin", email);
-        location.href = "admin-dashboard.html";
+        setSession('admin', email);
+        location.href = 'admin-dashboard.html';
       } else {
-        alert("Invalid Admin credentials!");
+        alert('Invalid Admin credentials!\nEmail: admin@bloodconnect.com\nPass: 123456');
       }
     } else {
       if (email === USER_EMAIL && password === COMMON_PASS) {
-        setSession("user", email);
-        location.href = "userprofile.html";
+        setSession('user', email);
+        location.href = 'userprofile.html';
       } else {
-        alert("Invalid User credentials!");
+        alert('Invalid User credentials!\nEmail: user@123.com\nPass: 123456');
       }
     }
   });
@@ -127,4 +148,3 @@
 
 </body>
 </html>
-
