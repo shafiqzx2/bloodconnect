@@ -3,226 +3,127 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>BloodConnect – Simple Landing Page</title>
+  <title>BloodConnect — Simple Landing</title>
   <style>
-    :root{
-      --bg:#fff7f7;
-      --panel:#ffffff;
-      --primary:#e11d48;/* rose-600 */
-      --primary-600:#be123c;/* darker */
-      --text:#1f2937;/* gray-800 */
-      --muted:#6b7280;/* gray-500 */
-      --ring:#fca5a5;/* red-300 */
-      --card:#fdf2f8;/* rose-50 */
-      --shadow:0 10px 25px rgba(0,0,0,.06);
-      --radius:16px;
-      --radius-sm:12px;
-      --radius-lg:24px;
-      --max:1120px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; font:16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      color:var(--text); background:var(--bg);
-    }
-    a{color:inherit; text-decoration:none}
-    img{max-width:100%; display:block}
-
-
-    .container{width:min(100% - 32px, var(--max)); margin-inline:auto}
-    header{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.85); backdrop-filter:saturate(180%) blur(8px); border-bottom:1px solid #f3f4f6}
-    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
-    .brand .dot{width:10px; height:10px; background:var(--primary); border-radius:50%}
-    .navlinks{display:flex; align-items:center; gap:20px}
-    .navlinks a{padding:8px 10px; border-radius:10px; font-weight:600; color:#374151}
-    .navlinks a:hover{background:#f9fafb}
-    .navctas{display:flex; align-items:center; gap:10px}
-
-    .btn{display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border-radius:999px; border:1px solid #f3f4f6; background:#ffffff; font-weight:700; box-shadow:var(--shadow)}
-    .btn:hover{transform:translateY(-1px)}
-    .btn.primary{background:var(--primary); color:white; border-color:transparent}
-    .btn.primary:hover{background:var(--primary-600)}
-    .btn.ghost{background:transparent; box-shadow:none}
-
-    .hamburger{display:none; border:none; background:transparent; padding:8px; border-radius:10px}
-    .hamburger:focus{outline:3px solid var(--ring)}
-    .mobile{display:none}
-
-    .hero{padding:40px 0 24px}
-    .hero-card{display:grid; grid-template-columns:1.2fr 1fr; gap:28px; background:var(--panel); border-radius:var(--radius-lg); padding:18px; box-shadow:var(--shadow)}
-    .hero-visual{border-radius:var(--radius); overflow:hidden; background:#111}
-    .hero-content{display:flex; align-items:center; justify-content:center; text-align:center; padding:12px}
-    .hero h1{font-size:clamp(28px, 4vw, 44px); line-height:1.2; margin:0 0 8px}
-    .hero p{margin:0 0 18px; color:var(--muted)}
-
-
-    section{padding:30px 0}
-
-
-    .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px}
-    .pill{display:flex; align-items:center; gap:10px; padding:14px 16px; background:var(--panel); border-radius:var(--radius); border:1px solid #f3f4f6; box-shadow:var(--shadow)}
-    .pill .icon{width:24px; height:24px}
-    .pill b{font-size:15px}
-
-
-    .stats{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px}
-    .card{background:var(--panel); border:1px solid #f3f4f6; border-radius:var(--radius); padding:18px; box-shadow:var(--shadow)}
-    .card h3{margin:0 0 8px; font-size:14px; color:var(--muted); font-weight:700}
-    .metric{font-size:24px; font-weight:800}
-
-
-    .cta{background:var(--card); border:1px dashed #fecaca; border-radius:var(--radius-lg); padding:20px; text-align:center}
-    .cta h2{margin:0 0 12px}
-    .cta .actions{display:flex; justify-content:center; gap:10px; flex-wrap:wrap}
-
-    footer{padding:32px 0 50px; color:#6b7280; text-align:center}
-
-
-    @media (max-width: 960px){
-      .hero-card{grid-template-columns:1fr}
-      .grid, .stats{grid-template-columns:1fr 1fr}
-    }
-    @media (max-width: 680px){
-      .navlinks{display:none}
-      .hamburger{display:block}
-      .mobile{display:block; border-top:1px solid #f3f4f6}
-      .mobile a{display:block; padding:12px 4px; border-bottom:1px solid #f3f4f6}
-      .grid, .stats{grid-template-columns:1fr}
-    }
+    body{margin:0;font:16px/1.6 Arial,Helvetica,sans-serif;background:#fff7f7;color:#1f2937}
+    a{text-decoration:none;color:inherit}
+    img{display:block;max-width:100%}
+    .container{width:min(100% - 32px,1120px);margin:0 auto}
+    main{padding:24px 0}
+    .hero{display:flex;gap:18px;background:#fff;border:1px solid #eee;border-radius:16px;padding:16px;margin-top:22px}
+    .hero-left,.hero-right{flex:1;min-width:0}
+    .hero-right{display:flex;align-items:center;justify-content:center;padding:8px}
+    .hero-img{width:100%;height:320px;border-radius:12px;overflow:hidden;background:#eee}
+    .hero-img img{width:100%;height:100%;object-fit:cover}
+    .hero h1{margin:0 0 8px;font-size:28px;line-height:1.25;text-align:center}
+    .hero p{margin:0 0 14px;color:#6b7280;text-align:center}
+    .actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .btn{display:inline-block;padding:10px 16px;border-radius:999px;border:1px solid #eee;background:#fff;font-weight:700}
+    .btn.primary{background:#e11d48;color:#fff;border:none}
+    .btn.primary:hover{background:#be123c}
+    .section{margin-top:26px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    .pill{flex:1;min-width:220px;text-align:center;background:#fff;border:1px solid #eee;border-radius:12px;padding:14px;font-weight:700}
+    .cards{display:flex;gap:12px;flex-wrap:wrap}
+    .card{flex:1;min-width:220px;background:#fff;border:1px solid #eee;border-radius:12px;padding:14px}
+    .metric{font-size:26px;font-weight:800;text-align:center}
+    .cta{background:#fff0f3;border:1px dashed #ffc6d1;border-radius:14px;text-align:center;padding:18px;margin-top:26px}
+    footer{text-align:center;color:#666;padding:28px 0 40px}
+    @media (max-width:900px){.hero{flex-direction:column}.hero-img{height:240px}}
   </style>
 </head>
 <body>
-
   <header>
-    <div class="container nav" aria-label="Primary">
-      <a href="#" class="brand">
-        <span class="dot" aria-hidden="true"></span>
-        <span>BloodConnect</span>
-      </a>
-      <nav class="navlinks" aria-label="Main">
+    <style>
+      header{background:#fff;border-bottom:1px solid #eee}
+      header .container{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 20px}
+      header .logo{display:flex;align-items:center;font-weight:bold;font-size:18px}
+      header .logo span{color:#e63946;margin-right:6px;font-size:20px}
+      header nav{display:flex;gap:20px}
+      header nav a{color:#111;font-size:14px}
+      header nav a:hover{color:#e63946}
+      header .actions{display:flex;gap:10px}
+      header .btn{padding:6px 16px;border-radius:20px;border:none;cursor:pointer;font-size:14px;font-weight:bold}
+      header .btn-sign{background:#fddede}
+      header .btn-login{background:#f2f2f2}
+      header .btn-sign:hover{background:#fcbcbc}
+      header .btn-login:hover{background:#ddd}
+      header .btn a{color:#111}
+    </style>
+    <div class="container">
+      <div class="logo"><span>🩸</span> BloodConnect</div>
+      <nav>
         <a href="index.html">Home</a>
-        <a href="working.html">How it Works</a>
-        <a href="about.html">About</a>
+        <a href="working.html">How It Works</a>
         <a href="blog.html">Blog</a>
+        <a href="about.html">About</a>
       </nav>
-      <div class="navctas">
-        <a class="btn ghost" href="login.html">Login</a>
-        <a class="btn primary" href="signup.html">Sign Up</a>
-      </div>
-      <button class="hamburger" id="openMenu" aria-label="Open menu" aria-expanded="false">
-
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </button>
-    </div>
-    <div id="mobileMenu" class="container mobile" hidden>
-      <a href="index.html">Home</a>
-      <a href="working.html">How it Works</a>
-      <a href="about.html">About</a>
-      <a href="blog.html">Blog</a>
-      <div style="display:flex; gap:10px; padding:12px 0">
-        <a class="btn ghost" style="flex:1; justify-content:center" href="login.html">Login</a>
-        <a class="btn primary" style="flex:1; justify-content:center" href="signup.html">Sign Up</a>
+      <div class="actions">
+        <button class="btn btn-sign"><a href="signup.html">Sign Up</a></button>
+        <button class="btn btn-login"><a href="login.html">Log in</a></button>
       </div>
     </div>
   </header>
 
-  <main id="home" class="container">
-
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-card">
-        <div class="hero-visual">
-
-          <img src="help.jpg" alt="Blood bag and tube" />
+  <main class="container">
+    <section class="hero">
+      <div class="hero-left">
+        <div class="hero-img">
+          <img src="help.jpg" alt="Helping hands / blood donation">
         </div>
-        <div class="hero-content">
-          <div>
-            <h1 id="hero-title">Connect, Donate, Save Lives</h1>
-            <p>BloodConnect হলো এমন একটি প্ল্যাটফর্ম যেখানে ডোনার এবং প্রয়োজনীয় লোকজনকে একসাথে সংযুক্ত করা হয়।</p>
-            <div class="actions">
-              <a class="btn primary" href="signup.html">Sign Up as Donor</a>
-              <a class="btn" href="Requests.html">Make a Request</a>
-            </div>
+      </div>
+      <div class="hero-right">
+        <div>
+          <h1>Connect, Donate, Save Lives</h1>
+          <p>BloodConnect হলো এমন একটি প্ল্যাটফর্ম যেখানে ডোনার ও প্রয়োজনীয় মানুষ সহজে সংযুক্ত হয়।</p>
+          <div class="actions">
+            <a class="btn primary" href="signup.html">Sign Up as Donor</a>
+            <a class="btn" href="Requests.html">Make a Request</a>
           </div>
         </div>
       </div>
     </section>
 
-
-    <section id="how" aria-labelledby="how-title">
-      <h2 id="how-title">How it Works</h2>
-      <div class="grid" style="margin-top:10px">
-        <a href="working.html" class="pill">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </span>
-          <b>Register as a Donor</b>
-        </a>
-        <a href="signup.html" class="pill">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </span>
-          <b>Search for Donors</b>
-        </a>
-        <a href="login.html" class="pill">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 4 15 4 9a8 8 0 1 1 16 0c0 6-8 12-8 12Z" stroke="currentColor" stroke-width="2"/></svg>
-          </span>
-          <b>Donate & Save Lives</b>
-        </a>
+    <section class="section">
+      <h2 style="margin:0 0 10px">How it Works</h2>
+      <div class="row">
+        <a class="pill" href="working.html">📝 Register as a Donor</a>
+        <a class="pill" href="signup.html">🔍 Search for Donors</a>
+        <a class="pill" href="login.html">🩸 Donate & Save Lives</a>
       </div>
     </section>
 
-
-    <section id="features" aria-labelledby="feat-title">
-      <h2 id="feat-title">Key Features</h2>
-      <div class="grid" style="margin-top:10px">
-        <a href="working.html" class="pill">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M5 12l4-4m-4 4 4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-          <b>Donor Search</b>
-        </a>
-        <a href="search.html" class="pill">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="2"/><path d="M7 9h10M7 13h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          </span>
-          <b>Blood Request System</b>
-        </a>
-        <a href="Requests.html" class="pill">
-          <span class="icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg>
-          </span>
-          <b>Emergency Mode</b>
-        </a>
+    <section class="section">
+      <h2 style="margin:0 0 10px">Key Features</h2>
+      <div class="row">
+        <a class="pill" href="working.html">🧑‍🤝‍🧑 Donor Search</a>
+        <a class="pill" href="search.html">📩 Blood Request System</a>
+        <a class="pill" href="Requests.html">🚨 Emergency Mode</a>
       </div>
     </section>
 
-
-    <section aria-labelledby="stats-title">
-      <h2 id="stats-title">Statistics</h2>
-      <div class="stats" style="margin-top:10px">
+    <section class="section">
+      <h2 style="margin:0 0 10px">Statistics</h2>
+      <div class="cards">
         <div class="card">
-          <h3>Total Donors</h3>
-          <div class="metric">12,345</div>
+          <div style="font-weight:700;margin-bottom:6px;color:#555">Total Donors</div>
+          <div class="metric">19</div>
         </div>
         <div class="card">
-          <h3>Active Requests</h3>
-          <div class="metric">678</div>
+          <div style="font-weight:700;margin-bottom:6px;color:#555">Active Requests</div>
+          <div class="metric">5</div>
         </div>
         <div class="card">
-          <h3>Donation Trends</h3>
+          <div style="font-weight:700;margin-bottom:6px;color:#555">Donation Trends</div>
           <div class="metric">+15%</div>
         </div>
       </div>
     </section>
 
-
-    <section class="cta" aria-labelledby="cta-title">
-      <h2 id="cta-title">Ready to Make a Difference?</h2>
-      <p style="margin-top:-6px; color:var(--muted)">আজই সাইন আপ করুন বা প্রয়োজন হলে রিকোয়েস্ট দিন।</p>
-      <div class="actions" style="margin-top:10px">
+    <section class="cta">
+      <h2>Ready to Make a Difference?</h2>
+      <p style="margin-top:-6px;color:#6b7280">আজই সাইন আপ করুন অথবা প্রয়োজন হলে রিকোয়েস্ট দিন।</p>
+      <div class="actions" style="margin-top:8px">
         <a class="btn primary" href="signup.html">Sign Up as Donor</a>
         <a class="btn" href="Requests.html">Make a Request</a>
       </div>
@@ -231,38 +132,11 @@
 
   <footer>
     <div class="container">
-      <small>&copy; <span id="year"></span> BloodConnect. All rights reserved.</small>
+      <small>© <span id="year"></span> BloodConnect. All rights reserved.</small>
     </div>
   </footer>
 
   <script>
-//mobile menu er jonno
-    const openBtn = document.getElementById('openMenu');
-    const mobileMenu = document.getElementById('mobileMenu');
-    openBtn?.addEventListener('click', () => {
-      const nowHidden = mobileMenu.hasAttribute('hidden') === false;
-      if(nowHidden){
-        mobileMenu.setAttribute('hidden', '');
-        openBtn.setAttribute('aria-expanded', 'false');
-      } else {
-        mobileMenu.removeAttribute('hidden');
-        openBtn.setAttribute('aria-expanded', 'true');
-      }
-    });
-
-
-    document.addEventListener('click', (e) => {
-      const a = e.target.closest('a[href^="#"]');
-      if(!a) return;
-      const id = a.getAttribute('href').slice(1);
-      if(!id) return;
-      const el = document.getElementById(id);
-      if(!el) return;
-      e.preventDefault();
-      window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 70, behavior: 'smooth' });
-    });
-
-  
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
